@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Error 404 &mdash; VILLALINO</title>
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="favicon-16.png">
+  <link rel="apple-touch-icon" href="favicon-512.png">
+  <link rel="icon" type="image/png" sizes="512x512" href="favicon-512.png">
+  <style>
+    /* SELF-CONTAINED 404 PAGE — FIREBASE HOSTING SERVES THIS FOR ANY
+       UNKNOWN PATH. STYLED AS A POPUP DIALOG IN THE SITE'S VCR FONT. */
+    @font-face {
+      font-family: "VCR OSD Mono";
+      src: url("vcr-osd-mono.woff") format("woff");
+      font-weight: normal;
+      font-style: normal;
+      font-display: swap;
+    }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+    }
+
+    body {
+      font-family: "VCR OSD Mono", "Helvetica Neue", Arial, monospace;
+      text-transform: uppercase;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 6vw;
+      box-sizing: border-box;
+      /* THE HERO PHOTO SITS BEHIND, DIMMED, SO THE DIALOG READS AS A POPUP */
+      background: #111111 url("right-cropped.jpg") center / cover no-repeat;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background: rgba(17, 17, 17, 0.6);
+    }
+
+    /* THE POPUP — SAME BLACK ROUNDED SURFACE AS THE SITE'S CARDS */
+    .popup {
+      position: relative;
+      z-index: 1;
+      box-sizing: border-box;
+      width: 100%;
+      max-width: 440px;
+      background: #111111;
+      border-radius: 22px;
+      padding: 2.75rem 2.5rem 2.5rem;
+      text-align: center;
+      color: #ffffff;
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.45);
+      animation: popIn 0.35s ease forwards;
+    }
+
+    @keyframes popIn {
+      from { opacity: 0; transform: translateY(10px) scale(0.96); }
+      to   { opacity: 1; transform: none; }
+    }
+
+    /* CORNER CLOSE (×) — DISMISSES BACK HOME, LIKE THE PROJECT CARD POPUPS */
+    .popup-close {
+      position: absolute;
+      top: 1rem;
+      right: 1.15rem;
+      width: 34px;
+      height: 34px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      font-size: 1.5rem;
+      line-height: 1;
+      color: #cfcfcf;
+      text-decoration: none;
+      transition: background 0.2s ease, color 0.2s ease;
+    }
+
+    .popup-close:hover {
+      background: rgba(255, 255, 255, 0.1);
+      color: #ffffff;
+    }
+
+    .popup .code {
+      margin: 0;
+      font-size: clamp(1.9rem, 9vw, 2.9rem);
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      white-space: nowrap;
+      color: #0ddb1b; /* SITE GREEN ACCENT */
+    }
+
+    .popup .label {
+      margin: 0.75rem 0 0;
+      font-size: 0.9rem;
+      letter-spacing: 0.14em;
+      color: #ffffff;
+    }
+
+    .popup .msg {
+      margin: 1rem 0 1.85rem;
+      font-size: 0.72rem;
+      line-height: 1.6;
+      letter-spacing: 0.06em;
+      color: #a09b90;
+    }
+
+    .home-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.6rem 1.35rem;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      border-radius: 999px;
+      font-family: inherit;
+      text-transform: uppercase;
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+      color: #ffffff;
+      text-decoration: none;
+      transition: background 0.2s ease, border-color 0.2s ease;
+    }
+
+    .home-btn:hover {
+      background: rgba(255, 255, 255, 0.12);
+      border-color: rgba(255, 255, 255, 0.6);
+    }
+  </style>
+</head>
+<body>
+  <div class="popup" role="alertdialog" aria-labelledby="err-code" aria-describedby="err-msg">
+    <a class="popup-close" href="/" aria-label="Close">&times;</a>
+    <p class="code" id="err-code">Error 404</p>
+    <p class="label">Page Not Found</p>
+    <p class="msg" id="err-msg">The page you&rsquo;re looking for doesn&rsquo;t exist or has moved.</p>
+    <a class="home-btn" href="/">Return Home</a>
+  </div>
+</body>
+</html>
