@@ -3,191 +3,145 @@ Source: public/index.html (#projects, cards tagged "technical")
 Listed newest to oldest, matching the order on the site.
 
 ================================================================================
-1. EUTERPE
-   When:  Personal Project · Present
-   Stack: TypeScript, NestJS, Next JS + React, Web Audio API, Tauri + Rust,
-          PostgreSQL, Redis, AWS (S3 / SQS / ECS), Docker Compose
-   About: Currently building a DAW-agnostic collaboration platform for
-          musicians, producers, and beatmakers.
+1. BARELY SEE THE BEACH
+   When:  Freelance · Present
+   Stack: HTML / CSS / JS
+   About: Redesigning the web storefront for local streetwear brand Barely See
+          The Beach to improve the shopping experience and better showcase the
+          brand.
+   Link:  https://ajv619.github.io/barelyseethebeach-redesign/
 
 ================================================================================
-2. Pomona
+2. EUTERPE
+   When:  Freelance · Present
+   Stack: TypeScript, Next.js / React, Web Audio API, Tauri / Rust,
+          PostgreSQL, AWS
+   About: Building a DAW-agnostic collaboration platform that helps musicians
+          and producers share, manage, and collaborate on music projects across
+          different production software.
+
+================================================================================
+3. Pomona
    When:  Vanity Project · Present
-   Stack: C++, ESP32, MQTT, React, PlatformIO, ADS1115
-   About: Currently building a gift for my grandpa.
+   Stack: C++, ESP32, MQTT, React, PlatformIO
+   About: Building a connected hardware-and-software system as a personal gift
+          for my grandpa, combining embedded control, sensing, and a web
+          interface.
 
 ================================================================================
-3. Pukka: Sneaker Authentication Platform
+4. Pukka: Sneaker Authentication Platform
    When:  ECE 140B · Spring 2026
    Stack: SwiftUI, FastAPI, PostgreSQL, Docker, OpenCV, Raspberry Pi,
           Pi Camera / NIR / Load Cell
-   About: In a team of 3, we collectively built a physical sneaker
-          authentication system that scans a shoe using a Raspberry Pi rig,
-          combining a top-down image, near-infrared spectral data, and
-          load-cell weight. The system compares weight, spectral fingerprints,
-          and toe-shape similarity against authentic and counterfeit baselines
-          to return a genuine-or-fake result with a confidence score. Awarded
-          2nd place at The Basement at UCSD's Demo Day among student startup
-          teams.
+   About: In a team of 3, we built a physical sneaker authentication system that
+          combines image, near-infrared, and weight data to identify counterfeit
+          shoes with a confidence score. Awarded 2nd place at The Basement at
+          UCSD’s Demo Day.
    Repo:  https://github.com/ajv619/pukka
 
 ================================================================================
-4. PICO-9: Custom ISA & Processor
+5. PICO-9: Custom ISA & Processor
    When:  CSE 141L · Spring 2026
-   Stack: SystemVerilog, Python Assembler, ModelSim, Quartus, Custom ISA
-   About: Designed and implemented a custom processor from scratch using a
-          9-bit instruction format and 8-bit datapath RISC ISA. Built the CPU
-          in SystemVerilog, including the decoder, ALU, register file, memory,
-          jump lookup control flow, and a custom two-pass Python assembler. Ran
-          benchmark programs for Hamming distance, min/max arithmetic, and
-          16x16 to 32-bit signed multiplication, using carry-managed multi-byte
-          arithmetic across signed 16-bit values.
+   Stack: SystemVerilog, Python, ModelSim, Quartus
+   About: Designed a custom 9-bit RISC processor and two-pass assembler from
+          scratch, then validated it with programs for Hamming distance,
+          arithmetic, and signed multiplication.
    Repo:  https://github.com/ajv619/pico-9
 
 ================================================================================
-5. The False Tremor: Sampling, Aliasing & Reconstruction
+6. The False Tremor: Sampling, Aliasing & Reconstruction
    When:  ECE 101 · Spring 2026
-   Stack: MATLAB, DSP, FFT, FIR Filter Design
-   About: Created a signal-processing project that shows how an undersampled
-          vibration sensor can mistake high-frequency machine noise for a fake
-          structural tremor. Synthesized the signal, predicted aliasing
-          behavior, validated the results with FFTs, and compared zero-order
-          hold, linear, and ideal sinc reconstruction. Designed a
-          Hamming-windowed sinc FIR anti-aliasing filter to show how the issue
-          could be prevented, all without relying on DSP toolbox dependencies.
+   Stack: MATLAB, DSP, FIR Filter Design
+   About: Demonstrated how undersampling can turn high-frequency machine noise
+          into a false structural tremor, then designed an anti-aliasing filter
+          to prevent it.
    Repo:  https://github.com/ajv619/the-false-tremor
 
 ================================================================================
-6. Edge-AI Thermal Sensing IoT System
+7. Edge-AI Thermal Sensing IoT System
    When:  ECE 140A · Winter 2026
-   Stack: C++ / Arduino, ESP32, AMG8833, FastAPI, MQTT, WebSockets,
+   Stack: C++ / Arduino, ESP32, FastAPI, MQTT, WebSockets,
           TensorFlow Lite Micro
-   About: Built an end-to-end IoT system that streams 8x8 thermal-camera frames
-          from an ESP32 over MQTT and uses the data to train a
-          presence-detection model. Deployed a quantized TFLite model back onto
-          the microcontroller for on-device inference. The system also includes
-          a FastAPI backend, database persistence, live WebSocket updates,
-          role-based sessions, and OIDC/PKCE authentication through a web
-          dashboard.
+   About: Built an end-to-end thermal sensing system that streams sensor data,
+          trains a presence-detection model, and deploys quantized inference
+          directly on an ESP32.
    Repo:  https://github.com/ajv619/edge-ai-thermal-sensing-iot
 
 ================================================================================
-7. Transformer from Scratch & Retrieval-Augmented Generation
+8. Transformer from Scratch & Retrieval-Augmented Generation
    When:  CSE 156 · Winter 2026
-   Stack: Python, PyTorch, GPT-2, LangChain, FAISS, BERT/GTE
-   About: Implemented the core Transformer architecture from scratch, including
-          scaled dot-product attention, multi-head attention, and pre-LayerNorm
-          blocks. Built both an encoder classifier and a GPT-style causal
-          decoder language model, then extended the project into generation
-          with beam search and trigram repetition blocking. Also built a
-          retrieval pipeline that reranks FAISS bi-encoder results using a
-          ColBERT-style MaxSim late-interaction scorer.
+   Stack: Python, PyTorch, LangChain, FAISS
+   About: Implemented a Transformer from scratch and built generation and
+          retrieval pipelines with beam search, vector search, and ColBERT-style
+          reranking.
    Repo:  https://github.com/ajv619/transformer-from-scratch-rag
 
 ================================================================================
-8. Viterbi Decoder: FPGA Convolutional-Code Error Correction
+9. Viterbi Decoder: FPGA Convolutional-Code Error Correction
    When:  ECE 111 · Winter 2026
-   Stack: SystemVerilog, Quartus, ModelSim, Viterbi Decoder,
-          Convolutional Coding
-   About: Built a Viterbi decoder in SystemVerilog for a rate-1/2, 8-state
-          convolutional code. Implemented the encoder, branch-metric logic,
-          add-compare-select unit, survivor memory, and traceback unit, then
-          verified the design in ModelSim with 256 out of 256 bits decoded
-          correctly. Synthesized the design in Intel Quartus and stress-tested
-          its limits by injecting different channel-error patterns to see when
-          correction finally breaks down.
+   Stack: SystemVerilog, FPGA, Quartus, ModelSim
+   About: Built and verified an FPGA Viterbi decoder for convolutional error
+          correction, achieving 256/256 correctly decoded test bits and stress-
+          testing its limits under channel errors.
    Repo:  https://github.com/ajv619/viterbi-decoder-ece111
 
 ================================================================================
-9. SocialCircle: Social-Network Link Prediction
+10. SocialCircle: Social-Network Link Prediction
    When:  CSE 158 · Fall 2025
    Stack: Python, pandas, NumPy, NetworkX, scikit-learn
-   About: Built a link-prediction model that estimates whether two friends in a
-          user's ego-network belong to the same social circle. Parsed graph
-          data, engineered classic network features like common neighbors,
-          Adamic-Adar, resource allocation, Jaccard, and preferential
-          attachment, then trained and compared multiple classifiers across
-          about 1.39 million friend pairs. The strongest models reached around
-          0.86 to 0.89 ROC-AUC, with neighborhood-overlap features driving most
-          of the signal.
+   About: Built a link-prediction system across 1.39 million friend pairs using
+          graph-based features and machine learning, with the strongest models
+          reaching roughly 0.86–0.89 ROC-AUC.
    Repo:  https://github.com/ajv619/socialcircle
 
 ================================================================================
-10. Library Loop
+11. Library Loop
    When:  CSE 170 · Fall 2025
-   Stack: HTML, CSS, JavaScript, Figma
-   About: Designed a front-end prototype for helping people discover what their
-          local public library offers beyond books, including events,
-          workshops, community programs, public computers, and study spaces.
-          The goal was to bring scattered information from flyers, bulletin
-          boards, staff, and sign-up sheets into one clearer experience. Built
-          the prototype in HTML, CSS, and JavaScript with modal, overlay,
-          registration, bookmarking, and confirmation flows, alongside
-          higher-fidelity Figma screens for Home, Explore, Events, Profile, and
-          Account.
+   Stack: HTML / CSS / JS, Figma
+   About: Designed and built a web prototype that makes local library events,
+          programs, resources, and services easier to discover and navigate.
    Repo:  https://github.com/ajv619/library-loop
 
 ================================================================================
-11. Symbolic Music Generation
+12. Symbolic Music Generation
    When:  CSE 153 · Spring 2025
-   Stack: Python, PyTorch, Transformer LM, LSTM, REMI/MIDI, MAESTRO
-   About: Built a generative-music project using the MAESTRO piano dataset and
-          REMI-tokenized MIDI. The project explored two directions: an
-          unconditioned Transformer that generates piano performances through
-          temperature and nucleus sampling, and a chord-conditioned LSTM that
-          generates melodies from a given chord progression. Evaluated the
-          outputs with music-specific metrics like note density and pitch
-          entropy, then rendered the results back into playable MIDI.
+   Stack: Python, PyTorch, MIDI, REMI
+   About: Built generative music models that create piano performances and
+          chord-conditioned melodies from MIDI, then evaluated the results using
+          music-specific quality metrics.
    Repo:  https://github.com/ajv619/symbolic-music-generation
 
 ================================================================================
-12. Supervised Learning Models for Binary Classification
+13. Supervised Learning Models for Binary Classification
    When:  COGS 118A · Fall 2024
    Stack: Python, scikit-learn, NumPy, pandas
-   About: Compared five supervised learning models across four
-          binary-classification datasets from the UC Irvine ML Repository: SVM,
-          Random Forest, Decision Trees, Neural Networks, and Logistic
-          Regression. Studied how training-set size affected accuracy and used
-          cross-validation for hyperparameter tuning. Wrote the final analysis
-          in a NeurIPS-style report alongside course assignments covering core
-          machine-learning fundamentals.
+   About: Compared five machine-learning models across four classification
+          datasets, evaluating how model choice and training-set size affected
+          performance through cross-validation and hyperparameter tuning.
    Repo:  https://github.com/ajv619/supervised-learning-models
 
 ================================================================================
-13. Band Pass Filter
+14. Band Pass Filter
    When:  ENGR 210 · Spring 2023
-   Stack: Multisim, MATLAB, Simulink, Arduino, RLC Circuit
-   About: Designed, simulated, built, and tested a series-RLC band pass filter
-          that passes a narrow range of frequencies while attenuating the rest.
-          Calculated the resonant frequency, Q-factor, and bandwidth, then
-          validated the magnitude and phase response in Multisim and MATLAB.
-          Prototyped and soldered the circuit into a 3D-printed enclosure, then
-          used Simulink, Arduino, an oscilloscope, and a waveform generator to
-          compare measured results against the calculated design.
+   Stack: Multisim, MATLAB, Simulink, Arduino
+   About: Designed, simulated, built, and tested an RLC band-pass filter,
+          validating its measured frequency response against calculated and
+          simulated results.
 
 ================================================================================
-14. Drone Recon Data Service
+15. Drone Recon Data Service
    When:  CSIS 294 · Spring 2021
    Stack: Java Servlets, JSP, REST API, JDBC/SQL, Apache Tomcat
-   About: Built a two-part Java web application for simulating a survey drone
-          and managing the reconnaissance data it collects. The drone portion
-          guides a target search across areas like agriculture, forest,
-          wildlife, search-and-rescue, or military use cases. The web portal
-          stores the collected data in a database and serves summarized search
-          results through JSP pages, a database access layer, and a custom JSON
-          REST endpoint.
+   About: Built a Java web application that simulates drone surveys, stores
+          reconnaissance data, and exposes summarized results through a
+          database-backed REST service.
    Repo:  https://github.com/ajv619/drone-recon-data-service
 
 ================================================================================
-15. P2P Blockchain Miner
+16. P2P Blockchain Miner
    When:  CSIS 294 · Spring 2021
-   Stack: Java, Multithreading, TCP Sockets, Proof-of-Work,
-          Peer-to-Peer Networking
-   About: Built a peer-to-peer blockchain node with real proof-of-work mining.
-          A miner thread manages pending transactions and mines blocks by
-          incrementing a nonce until the hash meets the difficulty target,
-          while a separate server thread listens for peers and exchanges
-          transactions and blocks over sockets. The result is a multi-threaded
-          node that can connect with other peers to form a small blockchain
-          network.
+   Stack: Java, Multithreading, TCP Sockets
+   About: Built a multithreaded peer-to-peer blockchain node that mines proof-
+          of-work blocks and exchanges transactions and blocks with other
+          networked peers.
    Repo:  https://github.com/ajv619/p2p-blockchain-miner
