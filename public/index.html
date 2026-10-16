@@ -2302,6 +2302,12 @@
       experienceSection.classList.toggle('show-right', experienceScroller.scrollLeft < max - 4);
     }
 
+    // The rail fills the panel, so clicks on its deadspace collapse (like PROJECTS)
+    experienceScroller.addEventListener('click', function (e) {
+      if (e.target.closest('.school')) return;
+      collapse();
+    });
+
     experienceScroller.addEventListener('scroll', updateExperienceFades);
     window.addEventListener('resize', updateExperienceFades);
     updateExperienceFades();
