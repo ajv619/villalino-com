@@ -428,6 +428,22 @@
       align-items: flex-start;
     }
 
+    /* EXPERIENCE: SCROLL WITHIN THE PANEL (LIKE RESEARCH) SO THE STACKED
+       ROLES CLEAR THE NAV ABOVE AND THE EMAIL / LINKEDIN ICONS BELOW. */
+    #experience {
+      bottom: 7rem;
+    }
+
+    #experience .panel-inner.education {
+      max-height: 100%;
+      overflow-x: hidden;
+      overflow-y: auto;
+    }
+
+    #experience .school {
+      flex-shrink: 0;
+    }
+
     .school-text .bullets {
       margin: 0.7rem 0 0;
       padding-left: 0;
@@ -637,7 +653,8 @@
       /* RESEARCH: SCROLL WITHIN THE PANEL AND SHRINK THE CARDS A TOUCH SO
          THEY CLEAR THE NAV ABOVE AND THE LINKEDIN / CREDIT BELOW. THE EXTRA
          top / bottom INSETS GIVE THESE TALLER CARDS MORE BREATHING ROOM. */
-      #research {
+      #research,
+      #experience {
         top: 8rem;
         bottom: 7rem;
       }
