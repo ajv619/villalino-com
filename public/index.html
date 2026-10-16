@@ -428,20 +428,57 @@
       align-items: flex-start;
     }
 
-    /* EXPERIENCE: SCROLL WITHIN THE PANEL (LIKE RESEARCH) SO THE STACKED
-       ROLES CLEAR THE NAV ABOVE AND THE EMAIL / LINKEDIN ICONS BELOW. */
+    /* EXPERIENCE — HORIZONTAL RAIL LIKE PROJECTS (NEWEST AT LEFT). CARDS ARE
+       VERTICALLY CENTERED AND THE ROW CENTERS WHEN IT FITS; WHEN IT DOESN'T,
+       IT SCROLLS SIDEWAYS WITH THE SAME EDGE FADES. THE BOTTOM INSET KEEPS
+       THE CARDS CLEAR OF THE EMAIL / LINKEDIN ICONS. */
     #experience {
       bottom: 7rem;
+      padding-left: 0;
+      padding-right: 0;
     }
 
     #experience .panel-inner.education {
-      max-height: 100%;
-      overflow-x: hidden;
-      overflow-y: auto;
+      max-width: none;
+      width: 100%;
+      height: 100%;
+      box-sizing: border-box;
+      flex-direction: row;
+      align-items: center;
+      gap: 1.25rem;
+      overflow-x: auto;
+      overflow-y: hidden;
+      scroll-snap-type: x proximity;
+      scroll-padding-left: 6vw;
+      padding: 0 0 0 6vw;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(0, 0, 0, 0.25) transparent;
+    }
+
+    #experience .panel-inner.education::-webkit-scrollbar {
+      height: 8px;
+    }
+
+    #experience .panel-inner.education::-webkit-scrollbar-thumb {
+      background: rgba(0, 0, 0, 0.25);
+      border-radius: 4px;
     }
 
     #experience .school {
-      flex-shrink: 0;
+      flex: 0 0 min(560px, 82vw);
+      max-height: 100%;
+      overflow-y: auto;
+      scroll-snap-align: start;
+    }
+
+    /* AUTO MARGINS CENTER THE ROW WHEN IT FITS WITHOUT CLIPPING THE LEFT
+       EDGE WHEN IT OVERFLOWS (justify-content: center WOULD) */
+    #experience .school:first-child {
+      margin-left: auto;
+    }
+
+    #experience .rail-spacer {
+      margin-right: auto;
     }
 
     .school-text .bullets {
@@ -777,7 +814,9 @@
     }
 
     #projects::before,
-    #projects::after {
+    #projects::after,
+    #experience::before,
+    #experience::after {
       content: "";
       position: absolute;
       top: 0;
@@ -790,15 +829,18 @@
     }
 
     /* Fades only show when there's hidden content in that direction */
-    #projects.show-left::before {
+    #projects.show-left::before,
+    #experience.show-left::before {
       opacity: 1;
     }
 
-    #projects.show-right::after {
+    #projects.show-right::after,
+    #experience.show-right::after {
       opacity: 1;
     }
 
-    #projects::before {
+    #projects::before,
+    #experience::before {
       left: 0;
       background: linear-gradient(to right,
         #f4f2ec 0%,
@@ -809,7 +851,8 @@
         rgba(244, 242, 236, 0) 100%);
     }
 
-    #projects::after {
+    #projects::after,
+    #experience::after {
       right: 0;
       background: linear-gradient(to left,
         #f4f2ec 0%,
@@ -1428,6 +1471,7 @@
             </ul>
           </div>
         </div>
+        <div class="rail-spacer"></div>
       </div>
     </div>
     <div class="panel" id="skills">
@@ -1934,6 +1978,7 @@
         var reveal = function () {
           document.getElementById(id).classList.add('shown');
           updateProjectFades();
+          updateExperienceFades();
         };
         if (wasShowing) {
           switchTimer = setTimeout(reveal, 520);
@@ -2246,6 +2291,20 @@
       window.addEventListener('resize', updateProjectFades);
       updateProjectFades();
     }
+
+    // Experience rail: same edge fades as PROJECTS
+    var experienceSection = document.getElementById('experience');
+    var experienceScroller = experienceSection.querySelector('.panel-inner');
+
+    function updateExperienceFades() {
+      var max = experienceScroller.scrollWidth - experienceScroller.clientWidth;
+      experienceSection.classList.toggle('show-left', experienceScroller.scrollLeft > 4);
+      experienceSection.classList.toggle('show-right', experienceScroller.scrollLeft < max - 4);
+    }
+
+    experienceScroller.addEventListener('scroll', updateExperienceFades);
+    window.addEventListener('resize', updateExperienceFades);
+    updateExperienceFades();
   </script>
 </body>
 </html>
