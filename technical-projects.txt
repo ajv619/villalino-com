@@ -4,7 +4,7 @@ Listed newest to oldest, matching the order on the site.
 
 ================================================================================
 1. BARELY SEE THE BEACH
-   When:  Freelance · Present
+   When:  FROM ANTH WITH LOVE · Present
    Stack: HTML / CSS / JS
    About: Redesigning the web storefront for local streetwear brand Barely See
           The Beach to improve the shopping experience and better showcase the
@@ -13,7 +13,7 @@ Listed newest to oldest, matching the order on the site.
 
 ================================================================================
 2. EUTERPE
-   When:  Freelance · Present
+   When:  FROM ANTH WITH LOVE · Present
    Stack: TypeScript, Next.js / React, Web Audio API, Tauri / Rust,
           PostgreSQL, AWS
    About: Building a DAW-agnostic collaboration platform that helps musicians
@@ -22,7 +22,7 @@ Listed newest to oldest, matching the order on the site.
 
 ================================================================================
 3. Pomona
-   When:  Vanity Project · Present
+   When:  FROM ANTH WITH LOVE · Present
    Stack: C++, ESP32, MQTT, React, PlatformIO
    About: Building a connected hardware-and-software system as a personal gift
           for my grandpa, combining embedded control, sensing, and a web
