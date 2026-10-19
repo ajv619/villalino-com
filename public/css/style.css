@@ -1,0 +1,1401 @@
+@font-face {
+  font-family: "VCR OSD Mono";
+  src: url("../fonts/vcr-osd-mono.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: "VCR OSD Mono", "Helvetica Neue", Arial, monospace;
+  text-transform: uppercase;
+}
+
+.hero {
+  position: relative;
+  z-index: 0; /* OWN STACKING CONTEXT SO THE BG HALVES STAY BEHIND CONTENT */
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* THE HERO BACKGROUND IS TWO HALVES OF ONE PHOTO, REASSEMBLED WITH NO
+   SEAM: left-cropped FILLS THE LEFT HALF, right-cropped THE RIGHT.
+   EACH IS COVER-SIZED IN ITS HALF AND ANCHORED TO ITS INNER (CUT)
+   EDGE, SO THE TWO CROPS MEET CLEANLY DOWN THE CENTER LINE. */
+.hero::before,
+.hero::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 50%;
+  background-size: cover;
+  background-repeat: no-repeat;
+  z-index: -1; /* BEHIND THE INTRO AND SCROLL CUE */
+}
+
+.hero::before {
+  left: 0;
+  background-image: url("../images/left-cropped.jpg");
+  background-position: right center; /* CUT EDGE MEETS THE CENTER SEAM */
+}
+
+.hero::after {
+  right: 0;
+  background-image: url("../images/right-cropped.jpg");
+  background-position: left center; /* CUT EDGE MEETS THE CENTER SEAM */
+}
+
+/* HALF-SCREEN / PORTRAIT (WIDTH <= HEIGHT): DROP THE RIGHT HALF AND
+   LET THE LEFT CROP FILL THE WHOLE HERO. */
+@media (max-aspect-ratio: 1 / 1) {
+  .hero::before {
+    width: 100%;
+    background-position: center center;
+  }
+  .hero::after {
+    display: none;
+  }
+}
+
+.scroll-cue {
+  position: absolute;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  color: #ffffff;
+  opacity: 0;
+  animation: cueFadeIn 1.5s ease forwards, bounce 1.8s ease-in-out infinite;
+  animation-delay: 3s, 3s;
+}
+
+.scroll-cue svg {
+  width: 30px;
+  height: 30px;
+  display: block;
+}
+
+@keyframes cueFadeIn {
+  to { opacity: 0.85; }
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateX(-50%) translateY(0); }
+  50%      { transform: translateX(-50%) translateY(10px); }
+}
+
+.intro {
+  /* SHRINK-TO-FIT SO THE HOVER BAR HUGS THE TEXT (NOT THE FULL WIDTH).
+     WITH max-width AT 92vw THE LINE STAYS ON ONE ROW AT FULL SCREEN
+     (AS BEFORE) AND ONLY WRAPS TO MULTIPLE LINES ONCE THE VIEWPORT
+     GETS TOO NARROW — THE BAR HUGS WHATEVER SHAPE IT BECOMES. THE
+     SMALL PADDING IS THE BAR'S CLEARANCE, ALWAYS RESERVED SO THE
+     TEXT NEVER SHIFTS ON HOVER. */
+  display: inline-block;
+  box-sizing: border-box;
+  max-width: 92vw;
+  font-family: "VCR OSD Mono", monospace;
+  font-weight: 400;
+  text-transform: uppercase;
+  color: #ffffff;
+  text-align: center;
+  padding: 0.35rem 0.85rem;
+  line-height: 1.5;
+  font-size: 1.375rem;
+  text-decoration: none;
+  opacity: 0;
+  animation: fadeIn 2s ease forwards;
+  animation-delay: 1.2s;
+}
+
+.intro strong {
+  font-weight: 700;
+}
+
+/* ONE CONTINUOUS BLACK RECTANGLE BEHIND THE MAILTO LINE ON HOVER —
+   SIGNALS IT'S A BUTTON AND AIDS READABILITY OVER THE PHOTO. NO
+   TRANSITION, SO IT APPEARS AND DISAPPEARS INSTANTLY. */
+.intro:hover {
+  background-color: #111111;
+}
+
+@keyframes fadeIn {
+  to { opacity: 1; }
+}
+
+.bar {
+  position: relative;
+  background-color: #f4f2ec;
+  min-height: 100vh;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+/* Up arrow at the top of the menu — visible only when nothing is selected */
+.scroll-up {
+  position: absolute;
+  top: 2rem;
+  left: 50%;
+  color: #111111;
+  opacity: 0.85;
+  cursor: pointer;
+  animation: bounceUp 1.8s ease-in-out infinite;
+  transition: opacity 0.3s ease 0.85s;
+}
+
+.scroll-up svg {
+  width: 30px;
+  height: 30px;
+  display: block;
+}
+
+/* Once a link is selected, the arrow fades out first (before the links rise) */
+.bar.active .scroll-up {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+}
+
+@keyframes bounceUp {
+  0%, 100% { transform: translateX(-50%) translateY(0); }
+  50%      { transform: translateX(-50%) translateY(-10px); }
+}
+
+/* Five links: centered by default, slide to the top when active */
+.nav {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: calc(50% - 1.75rem);
+  transform: translateY(-50%);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 2.5rem;
+  padding: 0 6vw;
+  box-sizing: border-box;
+  transition: top 0.8s ease, transform 0.8s ease;
+}
+
+.bar.active .nav {
+  top: 1.75rem;
+  transform: translateY(0);
+}
+
+.nav a {
+  font-family: "VCR OSD Mono", monospace;
+  text-transform: uppercase;
+  color: #111111;
+  text-decoration: none;
+  font-size: 1rem;
+  letter-spacing: 0.12em;
+  font-weight: 400;
+  transition: color 0.4s ease;
+}
+
+.nav a:hover {
+  text-decoration: underline;
+}
+
+/* Once expanded, the unselected links gray out; hover returns them to black */
+.bar.active .nav a {
+  color: #b0aca3;
+}
+
+.bar.active .nav a:hover {
+  color: #111111;
+}
+
+.bar.active .nav a.selected {
+  color: #111111;
+  font-weight: 700;
+}
+
+/* LinkedIn icon: centered by default, slides down near the credit when active */
+.social {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: calc(50% - 1.75rem);
+  transform: translateY(50%);
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem; /* SPACE BETWEEN THE SOCIAL ICONS */
+  transition: bottom 0.8s ease, transform 0.8s ease;
+}
+
+.bar.active .social {
+  bottom: 3.75rem;
+  transform: translateY(0);
+}
+
+/* SHARED STYLE FOR THE SOCIAL ICONS */
+.social a {
+  display: inline-flex;
+  color: #111111;
+  transition: opacity 0.3s ease;
+}
+
+.social a:hover {
+  opacity: 0.55;
+}
+
+.social a svg {
+  width: 28px;
+  height: 28px;
+  display: block;
+}
+
+/* The room that opens up between the links and the icon */
+.panel {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 5rem;
+  bottom: 6rem;
+  padding: 0 6vw;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: #111111;
+  opacity: 0;
+  pointer-events: none;
+  /* gate visibility instantly on show; on hide, stay visible long enough
+     for the boxes to collapse, then disappear (no cross-fade) */
+  transition: opacity 0s linear 0.45s;
+}
+
+.bar.active .panel.shown {
+  opacity: 1;
+  pointer-events: auto;
+  transition: opacity 0s;
+}
+
+/* Black boxes unfold from the center; logos fade in, then text wipes in
+   left-to-right line by line (fast typing). Reverses on collapse. */
+.school,
+.skill-box,
+.research-card,
+.panel-inner.projects {
+  transform: scaleY(0);
+  transform-origin: center;
+  transition: transform 0.4s ease;
+}
+
+.bar.active .panel.shown .school,
+.bar.active .panel.shown .skill-box,
+.bar.active .panel.shown .research-card,
+.bar.active .panel.shown .panel-inner.projects {
+  transform: scaleY(1);
+}
+
+/* Logos fade in after the box has formed (no wipe) */
+.crest,
+.lab-logo {
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+
+.bar.active .panel.shown .crest,
+.bar.active .panel.shown .lab-logo {
+  opacity: 1;
+  transition: opacity 0.35s ease 0.42s;
+}
+
+/* Text lines wipe in left-to-right (logos excluded) */
+.school-text > *,
+.skill-box > h4,
+.research-card > p,
+.project-card > * {
+  clip-path: inset(0 100% 0 0);
+  transition: clip-path 0.28s ease;
+}
+
+.bar.active .panel.shown .school-text > *,
+.bar.active .panel.shown .skill-box > h4,
+.bar.active .panel.shown .research-card > p,
+.bar.active .panel.shown .project-card > * {
+  clip-path: inset(0 0 0 0);
+  transition: clip-path 0.4s ease;
+  transition-delay: 0.55s;
+}
+
+/* SKILLS bubbles rise from below with a residual bounce (momentum) */
+.skill-pill {
+  transform: translateY(16px);
+  opacity: 0;
+  transition: transform 0.25s ease, opacity 0.25s ease;
+}
+
+.bar.active .panel.shown .skill-pill {
+  transform: translateY(0);
+  opacity: 1;
+  transition: transform 0.55s cubic-bezier(0.34, 1.56, 0.64, 1) 0.62s,
+              opacity 0.3s ease 0.62s;
+}
+
+/* Stagger the wipe line by line */
+.bar.active .panel.shown .school-text > *:nth-child(2),
+.bar.active .panel.shown .project-card > *:nth-child(2) { transition-delay: 0.62s; }
+
+.bar.active .panel.shown .school-text > *:nth-child(3),
+.bar.active .panel.shown .project-card > *:nth-child(3) { transition-delay: 0.69s; }
+
+.bar.active .panel.shown .school-text > *:nth-child(4),
+.bar.active .panel.shown .project-card > *:nth-child(4) { transition-delay: 0.76s; }
+
+.bar.active .panel.shown .school-text > *:nth-child(5),
+.bar.active .panel.shown .project-card > *:nth-child(5) { transition-delay: 0.83s; }
+
+.bar.active .panel.shown .school-text > *:nth-child(6),
+.bar.active .panel.shown .project-card > *:nth-child(6) { transition-delay: 0.90s; }
+
+.bar.active .panel.shown .project-card > *:nth-child(7) { transition-delay: 0.97s; }
+
+/* Experience bullets wipe one line at a time (not as a block) */
+.school-text > .bullets {
+  clip-path: none;
+}
+
+.bullets > li {
+  clip-path: inset(0 100% 0 0);
+  transition: clip-path 0.28s ease;
+}
+
+.bar.active .panel.shown .bullets > li {
+  clip-path: inset(0 0 0 0);
+  transition: clip-path 0.4s ease;
+}
+
+.bar.active .panel.shown .bullets > li:nth-child(1) { transition-delay: 0.83s; }
+.bar.active .panel.shown .bullets > li:nth-child(2) { transition-delay: 0.90s; }
+.bar.active .panel.shown .bullets > li:nth-child(3) { transition-delay: 0.97s; }
+.bar.active .panel.shown .bullets > li:nth-child(4) { transition-delay: 1.04s; }
+.bar.active .panel.shown .bullets > li:nth-child(5) { transition-delay: 1.11s; }
+.bar.active .panel.shown .bullets > li:nth-child(6) { transition-delay: 1.18s; }
+.bar.active .panel.shown .bullets > li:nth-child(7) { transition-delay: 1.25s; }
+
+.panel-inner {
+  max-width: 640px;
+  line-height: 1.6;
+  font-size: 1rem;
+}
+
+.education {
+  max-width: 560px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  text-align: left;
+}
+
+.school {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  box-sizing: border-box;
+  background: #111111;
+  border-radius: 20px;
+  padding: 1.5rem 1.75rem;
+}
+
+.school.exp {
+  align-items: flex-start;
+}
+
+/* EXPERIENCE — HORIZONTAL RAIL LIKE PROJECTS (NEWEST AT LEFT). CARDS ARE
+   VERTICALLY CENTERED AND THE ROW CENTERS WHEN IT FITS; WHEN IT DOESN'T,
+   IT SCROLLS SIDEWAYS WITH THE SAME EDGE FADES. THE BOTTOM INSET KEEPS
+   THE CARDS CLEAR OF THE EMAIL / LINKEDIN ICONS. */
+#experience {
+  bottom: 7rem;
+  padding-left: 0;
+  padding-right: 0;
+}
+
+#experience .panel-inner.education {
+  max-width: none;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  flex-direction: row;
+  align-items: center;
+  gap: 1.25rem;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-snap-type: x proximity;
+  scroll-padding-left: 6vw;
+  padding: 0 0 0 6vw;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0, 0, 0, 0.25) transparent;
+}
+
+#experience .panel-inner.education::-webkit-scrollbar {
+  height: 8px;
+}
+
+#experience .panel-inner.education::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.25);
+  border-radius: 4px;
+}
+
+#experience .school {
+  flex: 0 0 min(560px, 82vw);
+  max-height: 100%;
+  overflow-y: auto;
+  scroll-snap-align: start;
+}
+
+/* AUTO MARGINS CENTER THE ROW WHEN IT FITS WITHOUT CLIPPING THE LEFT
+   EDGE WHEN IT OVERFLOWS (justify-content: center WOULD) */
+#experience .school:first-child {
+  margin-left: auto;
+}
+
+#experience .rail-spacer {
+  margin-right: auto;
+}
+
+.school-text .bullets {
+  margin: 0.7rem 0 0;
+  padding-left: 0;
+  list-style: none;
+}
+
+.school-text .bullets li {
+  position: relative;
+  margin: 0.4rem 0;
+  padding-left: 1.1rem;
+  font-size: 0.82rem;
+  line-height: 1.5;
+  color: #cfcfcf;
+}
+
+.school-text .bullets li::before {
+  content: "*";
+  position: absolute;
+  left: 0;
+  color: #0ddb1b;
+}
+
+.school-text .bullets strong {
+  color: #ffffff;
+  font-weight: 700;
+}
+
+.crest {
+  width: 84px;
+  height: 84px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+.crest-link {
+  display: inline-flex;
+  flex-shrink: 0;
+}
+
+.school-text h3 {
+  margin: 0;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #ffffff;
+  letter-spacing: 0.01em;
+}
+
+.school-text .meta {
+  margin: 0.35rem 0 0.6rem;
+  font-size: 0.66rem;
+  line-height: 1.5;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #a09b90;
+}
+
+.school-text .degree {
+  margin: 0.1rem 0;
+  font-size: 0.9rem;
+  color: #e6e6e6;
+}
+
+.school-text .activities {
+  margin: 0.55rem 0 0;
+  font-size: 0.66rem;
+  line-height: 1.5;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #a09b90;
+}
+
+.school-text .activities a {
+  color: inherit;
+  text-decoration: underline;
+}
+
+.school-text .activities .sep {
+  font-size: 1.5em;
+  line-height: 0;
+  vertical-align: -0.1em;
+}
+
+.school-text .activities .role-group {
+  white-space: nowrap;
+}
+
+@media (max-width: 480px) {
+  .school {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 0.9rem;
+  }
+}
+
+.panel-inner.skills {
+  max-width: 1280px;
+  width: 100%;
+  display: flex;
+  align-items: stretch;
+  gap: 1.25rem;
+}
+
+.skill-box {
+  flex: 1 1 0;
+  min-width: 0;
+  box-sizing: border-box;
+  background: #111111;
+  border-radius: 22px;
+  padding: 2rem 1.5rem;
+  min-height: 360px;
+  color: #ffffff;
+  text-align: center;
+}
+
+.skill-box h4 {
+  margin: 0 0 1.25rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #ffffff;
+}
+
+.skill-body {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-content: flex-start;
+  gap: 0.5rem;
+}
+
+.skill-pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.34rem 0.7rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.07);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  font-size: 0.68rem;
+  letter-spacing: 0.04em;
+  line-height: 1;
+  color: #eaeaea;
+  white-space: nowrap;
+}
+
+.skill-pill.technical {
+  color: #6cc7e6;
+  border-color: rgba(108, 199, 230, 0.4);
+  background: rgba(108, 199, 230, 0.08);
+}
+
+.skill-pill.creative {
+  color: #e6b34c;
+  border-color: rgba(230, 179, 76, 0.4);
+  background: rgba(230, 179, 76, 0.08);
+}
+
+/* ── NARROW / MOBILE (<=720px) ────────────────────────────────────
+   THE FIXED MENU IS TIGHT ON PHONES: THE NAV WRAPS ONTO MULTIPLE
+   ROWS AND THE FOUR SKILL BOXES CAN'T SIT SIDE BY SIDE. WE (1) COMPACT
+   THE NAV AND DROP EVERY PANEL BELOW IT SO NOTHING OVERLAPS (FIXES THE
+   PROJECTS FILTER CLASHING WITH THE LINKS), AND (2) TURN THE SKILLS ROW
+   INTO A ONE-BOX-AT-A-TIME HORIZONTAL CAROUSEL. THIS IS ALSO THE MOBILE
+   EXPERIENCE. */
+@media (max-width: 720px) {
+  /* NAV: TIGHTER GAPS, PINNED NEAR THE TOP WHEN ACTIVE */
+  .nav {
+    gap: 0.75rem 1.4rem;
+    padding: 0 5vw;
+  }
+
+  .bar.active .nav {
+    top: 1.25rem;
+  }
+
+  /* CLEAR THE WRAPPED NAV — START EVERY PANEL LOWER SO THE PROJECTS
+     FILTER (AND ALL OTHER CONTENT) NO LONGER OVERLAPS THE LINKS */
+  .panel {
+    top: 7rem;
+  }
+
+  /* SKILLS STACK VERTICALLY AND SCROLL UP/DOWN WITHIN THE PANEL — LIKE
+     PROJECTS, THE PANEL'S BOTTOM INSET KEEPS THE SCROLL CLEAR OF THE
+     LINKEDIN ICON. min-height:0 TRIMS EACH BOX'S DEADSPACE SO IT IS ONLY
+     AS TALL AS ITS PILLS. max-height:100% LETS THE STACK CENTER WHEN
+     SHORT AND SCROLL WHEN TALL. */
+  .panel-inner.skills {
+    max-width: none;
+    width: 100%;
+    max-height: 100%;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1rem;
+    padding: 0 6vw;
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
+
+  .skill-box {
+    flex: 0 0 auto;
+    min-height: 0;
+  }
+
+  /* RESEARCH: SCROLL WITHIN THE PANEL AND SHRINK THE CARDS A TOUCH SO
+     THEY CLEAR THE NAV ABOVE AND THE LINKEDIN / CREDIT BELOW. THE EXTRA
+     top / bottom INSETS GIVE THESE TALLER CARDS MORE BREATHING ROOM. */
+  #research,
+  #experience {
+    top: 8rem;
+    bottom: 7rem;
+  }
+
+  .panel-inner.research-list {
+    max-width: none;
+    width: 100%;
+    max-height: 100%;
+    gap: 1rem;
+    padding: 0 6vw;
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
+
+  .research-card {
+    padding: 1.6rem 1.5rem;
+  }
+
+  .research-card .lab-logo {
+    margin-bottom: 1.1rem;
+  }
+
+  .research-card .lab-logo.wide {
+    width: 230px;
+  }
+
+  .research-card .lab-logo.mark {
+    width: 105px;
+  }
+
+  .research-card p {
+    font-size: 0.85rem;
+    line-height: 1.6;
+  }
+}
+
+/* PROJECTS — full-bleed reverse-chronological carousel (newest at left) */
+#projects {
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: flex-start;
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.project-filter {
+  flex: 0 0 auto;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  padding: 0.5rem 6vw 1.5rem;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.filter-group {
+  grid-column: 2;
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+}
+
+.view-toggle {
+  grid-column: 3;
+  justify-self: end;
+  display: flex;
+  gap: 0.5rem;
+}
+
+.view-btn {
+  display: inline-flex;
+  padding: 0;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #b0aca3;
+  transition: color 0.3s ease;
+}
+
+.view-btn:hover {
+  color: #111111;
+}
+
+.view-btn.active {
+  color: #111111;
+}
+
+.view-btn svg {
+  width: 20px;
+  height: 20px;
+  display: block;
+}
+
+/* Filter arrives after the projects settle, and leaves before they do */
+.bar.active #projects.shown .project-filter {
+  opacity: 1;
+  transition: opacity 0.4s ease 0.7s;
+}
+
+.filter-btn {
+  font-family: inherit;
+  font-size: 0.8rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #b0aca3;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.filter-btn:hover {
+  color: #111111;
+}
+
+.filter-btn.active {
+  color: #111111;
+  font-weight: 700;
+}
+
+#projects::before,
+#projects::after,
+#experience::before,
+#experience::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 6vw;
+  z-index: 2;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.35s ease;
+}
+
+/* Fades only show when there's hidden content in that direction */
+#projects.show-left::before,
+#experience.show-left::before {
+  opacity: 1;
+}
+
+#projects.show-right::after,
+#experience.show-right::after {
+  opacity: 1;
+}
+
+#projects::before,
+#experience::before {
+  left: 0;
+  background: linear-gradient(to right,
+    #f4f2ec 0%,
+    rgba(244, 242, 236, 0.96) 18%,
+    rgba(244, 242, 236, 0.74) 40%,
+    rgba(244, 242, 236, 0.4) 64%,
+    rgba(244, 242, 236, 0.12) 85%,
+    rgba(244, 242, 236, 0) 100%);
+}
+
+#projects::after,
+#experience::after {
+  right: 0;
+  background: linear-gradient(to left,
+    #f4f2ec 0%,
+    rgba(244, 242, 236, 0.96) 18%,
+    rgba(244, 242, 236, 0.74) 40%,
+    rgba(244, 242, 236, 0.4) 64%,
+    rgba(244, 242, 236, 0.12) 85%,
+    rgba(244, 242, 236, 0) 100%);
+}
+
+.panel-inner.projects {
+  max-width: none;
+  width: 100%;
+  box-sizing: border-box;
+  flex: 1 1 auto;
+  min-height: 0;
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-snap-type: x proximity;
+  scroll-padding-left: 6vw;
+  padding: 0 0 0 6vw;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0, 0, 0, 0.25) transparent;
+}
+
+/* Trailing spacer — gives the rightmost card room to scroll to center
+   when expanded (grown instantly on open, eased back on close via JS) */
+.rail-spacer {
+  flex: 0 0 6vw;
+}
+
+.panel-inner.projects::-webkit-scrollbar {
+  height: 8px;
+}
+
+.panel-inner.projects::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.25);
+  border-radius: 4px;
+}
+
+/* GRID VIEW — condensed cards in a responsive grid, vertical scroll */
+#projects.grid-view .panel-inner.projects {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  align-content: start;
+  gap: 1rem;
+  overflow-x: hidden;
+  overflow-y: auto;
+  padding: 0.25rem 6vw 1rem;
+}
+
+@media (max-width: 1200px) {
+  #projects.grid-view .panel-inner.projects {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 900px) {
+  #projects.grid-view .panel-inner.projects {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 620px) {
+  #projects.grid-view .panel-inner.projects {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+#projects.grid-view .rail-spacer {
+  display: none;
+}
+
+#projects.grid-view .project-card {
+  flex: none;
+  width: auto;
+  height: 230px;
+  padding: 1.4rem 1.4rem;
+  scroll-snap-align: none;
+}
+
+/* No big magnify in the grid (would overlap neighbors) */
+#projects.grid-view .project-card:hover {
+  transform: none;
+  z-index: auto;
+}
+
+/* Inline expand: the clicked card spans the full row, others dim */
+#projects.grid-view .project-card.expanded {
+  grid-column: 1 / -1;
+  width: auto;
+  height: auto;
+  max-height: none;
+  overflow: visible;
+}
+
+.project-card {
+  /* SHARED SIZE FOR THE EXPANDED-CARD APP ICON / LOGO.
+     DEFINED ONCE HERE SO THE SLOT AND ITS TEXT-CLEARANCE PADDING
+     ALWAYS STAY IN SYNC — CHANGE THIS ONE VALUE TO RESIZE BOTH. */
+  --logo-size: 84px;
+  flex: 0 0 340px;
+  box-sizing: border-box;
+  height: 360px;
+  overflow: hidden;
+  scroll-snap-align: start;
+  background: #111111;
+  border-radius: 22px;
+  padding: 1.75rem 1.6rem;
+  color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  position: relative;
+  cursor: pointer;
+  transition: transform 0.22s ease, filter 0.3s ease, opacity 0.3s ease, flex-basis 0.32s ease, height 0.32s ease;
+  will-change: transform;
+}
+
+/* Fade at the bottom hints there's more behind the click */
+.project-card::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 70px;
+  border-radius: 0 0 22px 22px;
+  background: linear-gradient(to top, #111111 18%, rgba(17, 17, 17, 0));
+  pointer-events: none;
+}
+
+/* Magnify only the hovered card */
+.project-card:hover {
+  transform: scale(1.1);
+  z-index: 3;
+}
+
+/* When a project is expanded, the other cards dim and shrink a touch */
+#projects.expanded .project-card {
+  filter: grayscale(1) brightness(0.55);
+  transform: scale(0.94);
+}
+
+#projects.expanded .project-card:hover {
+  transform: scale(1);
+}
+
+.project-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-size: 0.66rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #a09b90;
+}
+
+.project-tag .dot {
+  display: inline-flex;
+  align-items: center;
+  font-size: 0.8rem;
+  line-height: 1;
+}
+
+.project-card.technical .dot {
+  color: #6cc7e6;
+}
+
+.project-card.creative .dot {
+  color: #e6b34c;
+}
+
+.project-card.technical .dot::before {
+  content: "</>";
+  font-family: "Apple Symbols", "Segoe UI Symbol", "Arial Unicode MS", sans-serif;
+}
+
+.project-card.creative .dot::before {
+  content: "\2726";
+  font-family: "Apple Symbols", "Segoe UI Symbol", "Arial Unicode MS", sans-serif;
+}
+
+.project-card h4 {
+  margin: 0.85rem 0 0.2rem;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.project-card .year {
+  margin: 0 0 0.55rem;
+  font-size: 0.66rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #a09b90;
+}
+
+/* Parallel credit lines: roles for creative, stack for technical */
+.project-card .role,
+.project-card .stack {
+  margin: 0 0 0.85rem;
+  font-size: 0.68rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
+.project-card .role {
+  color: #e6b34c;
+}
+
+.project-card .stack {
+  color: #6cc7e6;
+}
+
+.project-card .stack-list {
+  margin: 0 0 0.95rem;
+  padding: 0;
+  list-style: none;
+}
+
+.project-card .stack-list li {
+  margin: 0.14rem 0;
+  font-size: 0.72rem;
+  line-height: 1.5;
+  color: #6cc7e6;
+}
+
+.project-card .org {
+  margin: 0 0 0.85rem;
+  font-size: 0.82rem;
+  line-height: 1.4;
+  color: #ffffff;
+}
+
+.project-card .desc {
+  margin: 0;
+  font-size: 0.8rem;
+  line-height: 1.55;
+  color: #cfcfcf;
+}
+
+/* The clicked card expands in place, sandwiched by the dimmed neighbors */
+.project-card.expanded {
+  flex: 0 0 auto;
+  height: auto;
+  max-height: calc(100% - 1.5rem);
+  overflow-y: auto;
+  overflow-x: hidden;
+  cursor: default;
+  z-index: 4;
+  filter: none !important;
+  transform: none !important;
+  padding: 2.5rem 2.5rem 2.25rem;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.25) transparent;
+}
+
+.project-card.expanded::after {
+  display: none;
+}
+
+.card-close {
+  display: none;
+  position: absolute;
+  top: 1rem;
+  right: 1.15rem;
+  width: 34px;
+  height: 34px;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background: transparent;
+  color: #cfcfcf;
+  font-size: 1.5rem;
+  line-height: 1;
+  cursor: pointer;
+  border-radius: 50%;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.card-close:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+}
+
+.project-card.expanded .card-close {
+  display: flex;
+}
+
+/* APP ICON / LOGO — UNIVERSAL SLOT IN THE TOP-RIGHT OF THE EXPANDED
+   CARD, SITTING BELOW THE CLOSE (×) BUTTON. BUILT FOR EVERY CARD BY
+   THE SCRIPT AND FILLED FROM data-logo (SEE mountLogo). ONLY VISIBLE
+   WHILE THE CARD IS EXPANDED — THE COLLAPSED CARDS ARE TOO SMALL. */
+.card-logo {
+  display: none;
+  position: absolute;
+  top: 3.5rem;
+  right: 2.5rem;
+  width: var(--logo-size);
+  height: var(--logo-size);
+  box-sizing: border-box;
+  border-radius: 18px; /* ROUNDED LIKE AN APP ICON */
+  overflow: hidden;
+  z-index: 4;
+}
+
+/* A REAL (NON-PLACEHOLDER) LOGO SITS ON A LIGHT TILE SO TRANSPARENT OR
+   DARK ARTWORK STAYS VISIBLE AGAINST THE BLACK CARD — APP-ICON STYLE. */
+.card-logo:not(.empty) {
+  background: #f4f2ec;
+  padding: 8px;
+}
+
+/* CREATIVE LOGOS (AND ANY .full-logo CARD) SHOW THE FULL ARTWORK — NO
+   APP-ICON TILE, PADDING, OR ROUNDED CORNERS. OTHER TECHNICAL CARDS
+   KEEP THE ICON LOOK. */
+.project-card.creative .card-logo:not(.empty),
+.project-card.full-logo .card-logo:not(.empty) {
+  background: none;
+  padding: 0;
+  border-radius: 0;
+  overflow: visible;
+}
+
+/* SLIGHTLY LARGER LOGOS FOR THESE THREE. BUMPING --logo-size GROWS THE
+   SLOT AND ITS TEXT-CLEARANCE PADDING TOGETHER, SO THE LEFT-SIDE TEXT
+   IS NEVER OVERLAPPED. */
+.project-card[data-logo="images/darling-forgive-me.svg"],
+.project-card[data-logo="images/griffin-radio-logo-transparent.png"],
+.project-card[data-logo="images/a-fork-in-the-road.svg"] {
+  --logo-size: 104px;
+}
+
+/* SHORT CARD: WITH ONLY A ONE-LINE STACK, THE DESC STILL STARTS BESIDE
+   THE ICON, SO IT NEEDS THE SAME RIGHT-SIDE CLEARANCE AS THE HEADER. */
+.project-card[data-logo="images/bstb-favicon.svg"].expanded .desc {
+  padding-right: calc(var(--logo-size) + 1.75rem);
+}
+
+.project-card.expanded .card-logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* THE LOGO IMAGE ITSELF (OR ITS OPTIONAL WRAPPING LINK) FILLS THE
+   SLOT WITHOUT DISTORTION — MIRRORS THE .crest / .lab-logo PATTERN. */
+.card-logo a {
+  display: inline-flex;
+  width: 100%;
+  height: 100%;
+}
+
+.card-logo img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+
+/* PLACEHOLDER WHEN NO LOGO IS SET YET — SAME DASHED "COMING SOON"
+   LOOK AS THE EMPTY .card-media, SO THE SLOT IS VISIBLE BUT QUIET. */
+.card-logo.empty {
+  border: 1px dashed rgba(255, 255, 255, 0.18);
+  border-radius: 14px;
+  font-size: 0.6rem;
+  letter-spacing: 0.06em;
+  color: #7a7a72;
+}
+
+.card-logo.empty::after {
+  content: "Logo";
+}
+
+/* No logo set → hide the slot entirely (no dashed placeholder). */
+.project-card.expanded .card-logo.empty {
+  display: none;
+}
+
+/* RESERVE ROOM ON THE RIGHT OF THE HEADER LINES SO TITLE / YEAR /
+   STACK / ROLE NEVER RUN UNDER THE ICON. THE FULL-WIDTH .desc SITS
+   BELOW THE ICON, SO IT IS DELIBERATELY LEFT UNTOUCHED. */
+.project-card.expanded .project-tag,
+.project-card.expanded h4,
+.project-card.expanded .year,
+.project-card.expanded .stack-list,
+.project-card.expanded .role,
+.project-card.expanded .org {
+  padding-right: calc(var(--logo-size) + 1.75rem);
+}
+
+.card-extra {
+  display: none;
+  margin-top: 1.6rem;
+  padding-top: 1.4rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.project-card.expanded .card-extra {
+  display: block;
+}
+
+/* If a card has neither action links nor an embedded video, drop the whole
+   extra block so no empty divider or placeholder gap is left behind. */
+.card-extra:not(:has(.card-links)):not(:has(.card-media.has-embed)):not(:has(.card-media.has-link)) {
+  display: none;
+}
+
+.card-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin-bottom: 1.1rem;
+}
+
+.card-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.5rem 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 999px;
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #ffffff;
+  text-decoration: none;
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.card-btn svg {
+  width: 15px;
+  height: 15px;
+  display: block;
+  flex-shrink: 0;
+}
+
+.card-btn:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.6);
+}
+
+.card-media {
+  border-radius: 14px;
+  overflow: hidden;
+}
+
+/* Placeholder look when there's no video */
+/* No embedded video → hide the slot entirely (no "coming soon" placeholder). */
+.card-media:not(.has-embed):not(.has-link) {
+  display: none;
+}
+
+/* Responsive 16:9 player when a video is embedded */
+.card-media.has-embed {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  background: #000;
+}
+
+.card-media.has-embed iframe,
+.card-media.has-embed video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+/* Compact click-out button for videos that block embedding (opens on
+   YouTube). Styled like .card-btn; sits left-aligned in a natural-height
+   slot rather than filling a 16:9 tile. */
+.card-media.has-link {
+  display: flex;
+}
+.card-btn.watch-btn .yt-ico {
+  color: #ff0000;
+}
+
+.research-list {
+  max-width: 540px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.research-card {
+  box-sizing: border-box;
+  background: #111111;
+  border-radius: 20px;
+  padding: 2.25rem 2.5rem;
+  text-align: center;
+  color: #ffffff;
+}
+
+.research-card .lab-logo {
+  display: block;
+  margin: 0 auto 1.5rem;
+  max-width: 100%;
+}
+
+.research-card .lab-logo.wide {
+  width: 340px;
+}
+
+.research-card .lab-logo.mark {
+  width: 150px;
+}
+
+.research-card .lab-logo img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.research-card p {
+  margin: 0;
+  font-size: 0.92rem;
+  line-height: 1.7;
+  color: #eaeaea;
+}
+
+.research-card p a {
+  color: #6cc7e6;
+  text-decoration: none;
+  border-bottom: 1px solid rgba(108, 199, 230, 0.4);
+  transition: border-color 0.3s ease;
+}
+
+.research-card p a:hover {
+  border-bottom-color: #6cc7e6;
+}
+
+.credit {
+  position: absolute;
+  bottom: 1.75rem;
+  left: 0;
+  right: 0;
+  text-align: center;
+  color: #888888;
+  font-size: 0.8rem;
+  letter-spacing: 0.04em;
+}
+
+.credit .heart {
+  color: #888888;
+  font-size: 1.05em;
+  -webkit-text-stroke: 0.4px #888888;
+}
