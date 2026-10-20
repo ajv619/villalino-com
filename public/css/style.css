@@ -352,13 +352,8 @@ body {
   transition-delay: 0.55s;
 }
 
-/* SKILLS bubbles rise from below with a residual bounce (momentum) */
-.skill-pill {
-  transform: translateY(16px);
-  opacity: 0;
-  transition: transform 0.25s ease, opacity 0.25s ease;
-}
-
+/* SKILLS bubbles rise from below with a residual bounce (momentum);
+   resting (hidden) state lives in the main .skill-pill rule */
 .bar.active .panel.shown .skill-pill {
   transform: translateY(0);
   opacity: 1;
@@ -635,6 +630,9 @@ body {
   line-height: 1;
   color: #eaeaea;
   white-space: nowrap;
+  transform: translateY(16px);
+  opacity: 0;
+  transition: transform 0.25s ease, opacity 0.25s ease;
 }
 
 .skill-pill.technical {
@@ -779,10 +777,7 @@ body {
   transition: color 0.3s ease;
 }
 
-.view-btn:hover {
-  color: var(--ink);
-}
-
+.view-btn:hover,
 .view-btn.active {
   color: var(--ink);
 }
@@ -1062,22 +1057,14 @@ body {
   color: var(--muted);
 }
 
-/* Parallel credit lines: roles for creative, stack for technical */
-.project-card .role,
-.project-card .stack {
+/* Credit line for creative cards (technical cards use .stack-list) */
+.project-card .role {
   margin: 0 0 0.85rem;
   font-size: 0.68rem;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   font-weight: 700;
-}
-
-.project-card .role {
   color: var(--creative);
-}
-
-.project-card .stack {
-  color: var(--technical);
 }
 
 .project-card .stack-list {
@@ -1313,7 +1300,6 @@ body {
   overflow: hidden;
 }
 
-/* Placeholder look when there's no video */
 /* No embedded video → hide the slot entirely (no "coming soon" placeholder). */
 .card-media:not(.has-embed):not(.has-link) {
   display: none;
@@ -1409,10 +1395,4 @@ body {
   color: #888888;
   font-size: 0.8rem;
   letter-spacing: 0.04em;
-}
-
-.credit .heart {
-  color: #888888;
-  font-size: 1.05em;
-  -webkit-text-stroke: 0.4px #888888;
 }
