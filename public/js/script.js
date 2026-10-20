@@ -198,6 +198,12 @@ function railMetrics() {
   };
 }
 
+// Mirrors the card's CSS flex-basis, min(var(--card-w), 88vw), so the
+// scroll math matches the rendered width on phones.
+function collapsedWidth() {
+  return Math.min(COLLAPSED_W, window.innerWidth * 0.88);
+}
+
 function centerCard(card, w) {
   var m = railMetrics();
   // count only the visible cards before this one (filter-aware)
@@ -206,7 +212,7 @@ function centerCard(card, w) {
     if (projectCards[i] === card) break;
     if (projectCards[i].style.display !== 'none') visibleIndex++;
   }
-  var baseLeft = m.padLeft + visibleIndex * (COLLAPSED_W + m.gap);
+  var baseLeft = m.padLeft + visibleIndex * (collapsedWidth() + m.gap);
   var target = baseLeft + w / 2 - projectsScroller.clientWidth / 2;
   projectsScroller.scrollTo({ left: Math.max(0, target), behavior: 'smooth' });
 }

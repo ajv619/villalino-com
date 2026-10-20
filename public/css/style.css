@@ -408,6 +408,20 @@ body {
   font-size: 1rem;
 }
 
+/* STACKED PANELS NEVER SPILL PAST THEIR PANEL: WHEN THE WINDOW IS TOO
+   SHORT OR NARROW FOR THE CARDS, THEY SCROLL INSIDE IT INSTEAD OF
+   COVERING THE NAV ABOVE AND THE ICONS / CREDIT BELOW. (THE PROJECTS
+   AND EXPERIENCE RAILS MANAGE THEIR OWN OVERFLOW.) */
+.panel-inner.skills,
+.panel-inner.research-list,
+#education .panel-inner.education {
+  max-height: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0, 0, 0, 0.25) transparent;
+}
+
 .education {
   max-width: 560px;
   width: 100%;
@@ -599,6 +613,19 @@ body {
   text-align: center;
 }
 
+/* MID WIDTHS (E.G. A HALF-SCREEN WINDOW): FOUR SIDE-BY-SIDE COLUMNS GET
+   SO NARROW THE TOOLS LIST RUNS THE FULL HEIGHT, SO GO TWO BY TWO. */
+@media (min-width: 721px) and (max-width: 1100px) {
+  .panel-inner.skills {
+    flex-wrap: wrap;
+  }
+
+  .skill-box {
+    flex: 1 1 calc(50% - 0.625rem);
+    min-height: 0;
+  }
+}
+
 .skill-box h4 {
   margin: 0 0 1.25rem;
   padding-bottom: 1rem;
@@ -679,13 +706,10 @@ body {
   .panel-inner.skills {
     max-width: none;
     width: 100%;
-    max-height: 100%;
     flex-direction: column;
     align-items: stretch;
     gap: 1rem;
     padding: 0 6vw;
-    overflow-x: hidden;
-    overflow-y: auto;
   }
 
   .skill-box {
@@ -697,19 +721,18 @@ body {
      THEY CLEAR THE NAV ABOVE AND THE LINKEDIN / CREDIT BELOW. THE EXTRA
      top / bottom INSETS GIVE THESE TALLER CARDS MORE BREATHING ROOM. */
   #research,
-  #experience {
+  #experience,
+  #education {
     top: 8rem;
     bottom: 7rem;
   }
 
-  .panel-inner.research-list {
+  .panel-inner.research-list,
+  #education .panel-inner.education {
     max-width: none;
     width: 100%;
-    max-height: 100%;
     gap: 1rem;
     padding: 0 6vw;
-    overflow-x: hidden;
-    overflow-y: auto;
   }
 
   .research-card {
@@ -765,6 +788,24 @@ body {
   justify-self: end;
   display: flex;
   gap: 0.5rem;
+}
+
+/* NARROW PHONES: A CENTERED FILTER ROW RUNS INTO THE VIEW TOGGLE, SO
+   LEFT-ALIGN THE FILTERS AND GIVE THE TOGGLE THE REMAINING SPACE. */
+@media (max-width: 480px) {
+  .project-filter {
+    grid-template-columns: 1fr auto;
+  }
+
+  .filter-group {
+    grid-column: 1;
+    justify-content: flex-start;
+    gap: 1.25rem;
+  }
+
+  .view-toggle {
+    grid-column: 2;
+  }
 }
 
 .view-btn {
@@ -960,7 +1001,9 @@ body {
      DEFINED ONCE HERE SO THE SLOT AND ITS TEXT-CLEARANCE PADDING
      ALWAYS STAY IN SYNC — CHANGE THIS ONE VALUE TO RESIZE BOTH. */
   --logo-size: 84px;
-  flex: 0 0 var(--card-w);
+  /* NEVER WIDER THAN THE SCREEN (88vw LEAVES THE 6vw RAIL INSETS);
+     js/script.js collapsedWidth() MIRRORS THIS. */
+  flex: 0 0 min(var(--card-w), 88vw);
   box-sizing: border-box;
   height: 360px;
   overflow: hidden;
@@ -976,6 +1019,13 @@ body {
   cursor: pointer;
   transition: transform 0.22s ease, filter 0.3s ease, opacity 0.3s ease, flex-basis 0.32s ease, height 0.32s ease;
   will-change: transform;
+}
+
+/* SHORT WINDOWS (LANDSCAPE PHONES): SHRINK COLLAPSED RAIL CARDS TO THE
+   RAIL'S HEIGHT SO THEY CLIP AT THE BOTTOM (UNDER THE FADE) INSTEAD OF
+   LOSING THEIR TITLES OFF THE TOP. */
+#projects:not(.grid-view) .project-card:not(.expanded) {
+  max-height: 100%;
 }
 
 /* Fade at the bottom hints there's more behind the click */
