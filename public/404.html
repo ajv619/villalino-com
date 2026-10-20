@@ -8,26 +8,17 @@
   <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16.png">
   <link rel="apple-touch-icon" href="/images/favicon-512.png">
   <link rel="icon" type="image/png" sizes="512x512" href="/images/favicon-512.png">
+  <!-- ABSOLUTE PATH: FIREBASE SERVES THIS PAGE AT ANY UNKNOWN URL DEPTH.
+       SUPPLIES THE VCR @font-face, BASE FONT/UPPERCASE AND COLOR TOKENS. -->
+  <link rel="stylesheet" href="/css/style.css">
   <style>
-    /* SELF-CONTAINED 404 PAGE — FIREBASE HOSTING SERVES THIS FOR ANY
-       UNKNOWN PATH. STYLED AS A POPUP DIALOG IN THE SITE'S VCR FONT. */
-    @font-face {
-      font-family: "VCR OSD Mono";
-      src: url("/fonts/vcr-osd-mono.woff") format("woff");
-      font-weight: normal;
-      font-style: normal;
-      font-display: swap;
-    }
-
+    /* 404 PAGE — FIREBASE HOSTING SERVES THIS FOR ANY UNKNOWN PATH.
+       STYLED AS A POPUP DIALOG IN THE SITE'S VCR FONT. */
     html, body {
-      margin: 0;
-      padding: 0;
       height: 100%;
     }
 
     body {
-      font-family: "VCR OSD Mono", "Helvetica Neue", Arial, monospace;
-      text-transform: uppercase;
       min-height: 100vh;
       display: flex;
       align-items: center;
