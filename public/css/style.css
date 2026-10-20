@@ -6,6 +6,23 @@
   font-display: swap;
 }
 
+:root {
+  /* PALETTE — CHANGE A COLOR HERE AND EVERY USE FOLLOWS */
+  --ink: #111111;        /* CARD / TEXT BLACK */
+  --white: #ffffff;
+  --paper: #f4f2ec;      /* MENU BACKGROUND, LOGO TILES */
+  --muted: #a09b90;      /* META LINES */
+  --dim: #b0aca3;        /* INACTIVE NAV / FILTER */
+  --soft: #cfcfcf;       /* BODY COPY ON BLACK */
+  --technical: #6cc7e6;  /* TECHNICAL ACCENT */
+  --creative: #e6b34c;   /* CREATIVE ACCENT */
+  --green: #0ddb1b;      /* BULLET / 404 ACCENT */
+
+  /* LAYOUT + TIMING SHARED WITH js/script.js (READ VIA getComputedStyle) */
+  --card-w: 340px;              /* COLLAPSED PROJECT CARD WIDTH */
+  --panel-switch-delay: 520ms;  /* WAIT FOR THE OLD PANEL TO COLLAPSE */
+}
+
 html {
   scroll-behavior: smooth;
 }
@@ -75,7 +92,7 @@ body {
   bottom: 2rem;
   left: 50%;
   transform: translateX(-50%);
-  color: #ffffff;
+  color: var(--white);
   opacity: 0;
   animation: cueFadeIn 1.5s ease forwards, bounce 1.8s ease-in-out infinite;
   animation-delay: 3s, 3s;
@@ -109,7 +126,7 @@ body {
   font-family: "VCR OSD Mono", monospace;
   font-weight: 400;
   text-transform: uppercase;
-  color: #ffffff;
+  color: var(--white);
   text-align: center;
   padding: 0.35rem 0.85rem;
   line-height: 1.5;
@@ -128,7 +145,7 @@ body {
    SIGNALS IT'S A BUTTON AND AIDS READABILITY OVER THE PHOTO. NO
    TRANSITION, SO IT APPEARS AND DISAPPEARS INSTANTLY. */
 .intro:hover {
-  background-color: #111111;
+  background-color: var(--ink);
 }
 
 @keyframes fadeIn {
@@ -137,7 +154,7 @@ body {
 
 .bar {
   position: relative;
-  background-color: #f4f2ec;
+  background-color: var(--paper);
   min-height: 100vh;
   box-sizing: border-box;
   overflow: hidden;
@@ -148,7 +165,7 @@ body {
   position: absolute;
   top: 2rem;
   left: 50%;
-  color: #111111;
+  color: var(--ink);
   opacity: 0.85;
   cursor: pointer;
   animation: bounceUp 1.8s ease-in-out infinite;
@@ -198,7 +215,7 @@ body {
 .nav a {
   font-family: "VCR OSD Mono", monospace;
   text-transform: uppercase;
-  color: #111111;
+  color: var(--ink);
   text-decoration: none;
   font-size: 1rem;
   letter-spacing: 0.12em;
@@ -212,15 +229,15 @@ body {
 
 /* Once expanded, the unselected links gray out; hover returns them to black */
 .bar.active .nav a {
-  color: #b0aca3;
+  color: var(--dim);
 }
 
 .bar.active .nav a:hover {
-  color: #111111;
+  color: var(--ink);
 }
 
 .bar.active .nav a.selected {
-  color: #111111;
+  color: var(--ink);
   font-weight: 700;
 }
 
@@ -245,7 +262,7 @@ body {
 /* SHARED STYLE FOR THE SOCIAL ICONS */
 .social a {
   display: inline-flex;
-  color: #111111;
+  color: var(--ink);
   transition: opacity 0.3s ease;
 }
 
@@ -272,7 +289,7 @@ body {
   align-items: center;
   justify-content: center;
   text-align: center;
-  color: #111111;
+  color: var(--ink);
   opacity: 0;
   pointer-events: none;
   /* gate visibility instantly on show; on hide, stay visible long enough
@@ -410,7 +427,7 @@ body {
   align-items: center;
   gap: 1.5rem;
   box-sizing: border-box;
-  background: #111111;
+  background: var(--ink);
   border-radius: 20px;
   padding: 1.5rem 1.75rem;
 }
@@ -484,18 +501,18 @@ body {
   padding-left: 1.1rem;
   font-size: 0.82rem;
   line-height: 1.5;
-  color: #cfcfcf;
+  color: var(--soft);
 }
 
 .school-text .bullets li::before {
   content: "*";
   position: absolute;
   left: 0;
-  color: #0ddb1b;
+  color: var(--green);
 }
 
 .school-text .bullets strong {
-  color: #ffffff;
+  color: var(--white);
   font-weight: 700;
 }
 
@@ -515,7 +532,7 @@ body {
   margin: 0;
   font-size: 1.05rem;
   font-weight: 700;
-  color: #ffffff;
+  color: var(--white);
   letter-spacing: 0.01em;
 }
 
@@ -525,7 +542,7 @@ body {
   line-height: 1.5;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: #a09b90;
+  color: var(--muted);
 }
 
 .school-text .degree {
@@ -540,7 +557,7 @@ body {
   line-height: 1.5;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: #a09b90;
+  color: var(--muted);
 }
 
 .school-text .activities a {
@@ -579,11 +596,11 @@ body {
   flex: 1 1 0;
   min-width: 0;
   box-sizing: border-box;
-  background: #111111;
+  background: var(--ink);
   border-radius: 22px;
   padding: 2rem 1.5rem;
   min-height: 360px;
-  color: #ffffff;
+  color: var(--white);
   text-align: center;
 }
 
@@ -595,7 +612,7 @@ body {
   font-weight: 700;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: #ffffff;
+  color: var(--white);
 }
 
 .skill-body {
@@ -621,13 +638,13 @@ body {
 }
 
 .skill-pill.technical {
-  color: #6cc7e6;
+  color: var(--technical);
   border-color: rgba(108, 199, 230, 0.4);
   background: rgba(108, 199, 230, 0.08);
 }
 
 .skill-pill.creative {
-  color: #e6b34c;
+  color: var(--creative);
   border-color: rgba(230, 179, 76, 0.4);
   background: rgba(230, 179, 76, 0.08);
 }
@@ -758,16 +775,16 @@ body {
   background: none;
   border: none;
   cursor: pointer;
-  color: #b0aca3;
+  color: var(--dim);
   transition: color 0.3s ease;
 }
 
 .view-btn:hover {
-  color: #111111;
+  color: var(--ink);
 }
 
 .view-btn.active {
-  color: #111111;
+  color: var(--ink);
 }
 
 .view-btn svg {
@@ -787,7 +804,7 @@ body {
   font-size: 0.8rem;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: #b0aca3;
+  color: var(--dim);
   background: none;
   border: none;
   padding: 0;
@@ -796,11 +813,11 @@ body {
 }
 
 .filter-btn:hover {
-  color: #111111;
+  color: var(--ink);
 }
 
 .filter-btn.active {
-  color: #111111;
+  color: var(--ink);
   font-weight: 700;
 }
 
@@ -834,7 +851,7 @@ body {
 #experience::before {
   left: 0;
   background: linear-gradient(to right,
-    #f4f2ec 0%,
+    var(--paper) 0%,
     rgba(244, 242, 236, 0.96) 18%,
     rgba(244, 242, 236, 0.74) 40%,
     rgba(244, 242, 236, 0.4) 64%,
@@ -846,7 +863,7 @@ body {
 #experience::after {
   right: 0;
   background: linear-gradient(to left,
-    #f4f2ec 0%,
+    var(--paper) 0%,
     rgba(244, 242, 236, 0.96) 18%,
     rgba(244, 242, 236, 0.74) 40%,
     rgba(244, 242, 236, 0.4) 64%,
@@ -948,15 +965,15 @@ body {
      DEFINED ONCE HERE SO THE SLOT AND ITS TEXT-CLEARANCE PADDING
      ALWAYS STAY IN SYNC — CHANGE THIS ONE VALUE TO RESIZE BOTH. */
   --logo-size: 84px;
-  flex: 0 0 340px;
+  flex: 0 0 var(--card-w);
   box-sizing: border-box;
   height: 360px;
   overflow: hidden;
   scroll-snap-align: start;
-  background: #111111;
+  background: var(--ink);
   border-radius: 22px;
   padding: 1.75rem 1.6rem;
-  color: #ffffff;
+  color: var(--white);
   display: flex;
   flex-direction: column;
   text-align: left;
@@ -975,7 +992,7 @@ body {
   bottom: 0;
   height: 70px;
   border-radius: 0 0 22px 22px;
-  background: linear-gradient(to top, #111111 18%, rgba(17, 17, 17, 0));
+  background: linear-gradient(to top, var(--ink) 18%, rgba(17, 17, 17, 0));
   pointer-events: none;
 }
 
@@ -1002,7 +1019,7 @@ body {
   font-size: 0.66rem;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: #a09b90;
+  color: var(--muted);
 }
 
 .project-tag .dot {
@@ -1013,11 +1030,11 @@ body {
 }
 
 .project-card.technical .dot {
-  color: #6cc7e6;
+  color: var(--technical);
 }
 
 .project-card.creative .dot {
-  color: #e6b34c;
+  color: var(--creative);
 }
 
 .project-card.technical .dot::before {
@@ -1034,7 +1051,7 @@ body {
   margin: 0.85rem 0 0.2rem;
   font-size: 1.05rem;
   font-weight: 700;
-  color: #ffffff;
+  color: var(--white);
 }
 
 .project-card .year {
@@ -1042,7 +1059,7 @@ body {
   font-size: 0.66rem;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: #a09b90;
+  color: var(--muted);
 }
 
 /* Parallel credit lines: roles for creative, stack for technical */
@@ -1056,11 +1073,11 @@ body {
 }
 
 .project-card .role {
-  color: #e6b34c;
+  color: var(--creative);
 }
 
 .project-card .stack {
-  color: #6cc7e6;
+  color: var(--technical);
 }
 
 .project-card .stack-list {
@@ -1073,21 +1090,21 @@ body {
   margin: 0.14rem 0;
   font-size: 0.72rem;
   line-height: 1.5;
-  color: #6cc7e6;
+  color: var(--technical);
 }
 
 .project-card .org {
   margin: 0 0 0.85rem;
   font-size: 0.82rem;
   line-height: 1.4;
-  color: #ffffff;
+  color: var(--white);
 }
 
 .project-card .desc {
   margin: 0;
   font-size: 0.8rem;
   line-height: 1.55;
-  color: #cfcfcf;
+  color: var(--soft);
 }
 
 /* The clicked card expands in place, sandwiched by the dimmed neighbors */
@@ -1121,7 +1138,7 @@ body {
   justify-content: center;
   border: none;
   background: transparent;
-  color: #cfcfcf;
+  color: var(--soft);
   font-size: 1.5rem;
   line-height: 1;
   cursor: pointer;
@@ -1131,7 +1148,7 @@ body {
 
 .card-close:hover {
   background: rgba(255, 255, 255, 0.1);
-  color: #ffffff;
+  color: var(--white);
 }
 
 .project-card.expanded .card-close {
@@ -1158,7 +1175,7 @@ body {
 /* A REAL (NON-PLACEHOLDER) LOGO SITS ON A LIGHT TILE SO TRANSPARENT OR
    DARK ARTWORK STAYS VISIBLE AGAINST THE BLACK CARD — APP-ICON STYLE. */
 .card-logo:not(.empty) {
-  background: #f4f2ec;
+  background: var(--paper);
   padding: 8px;
 }
 
@@ -1274,7 +1291,7 @@ body {
   font-size: 0.72rem;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  color: #ffffff;
+  color: var(--white);
   text-decoration: none;
   transition: background 0.2s ease, border-color 0.2s ease;
 }
@@ -1338,11 +1355,11 @@ body {
 
 .research-card {
   box-sizing: border-box;
-  background: #111111;
+  background: var(--ink);
   border-radius: 20px;
   padding: 2.25rem 2.5rem;
   text-align: center;
-  color: #ffffff;
+  color: var(--white);
 }
 
 .research-card .lab-logo {
@@ -1373,14 +1390,14 @@ body {
 }
 
 .research-card p a {
-  color: #6cc7e6;
+  color: var(--technical);
   text-decoration: none;
   border-bottom: 1px solid rgba(108, 199, 230, 0.4);
   transition: border-color 0.3s ease;
 }
 
 .research-card p a:hover {
-  border-bottom-color: #6cc7e6;
+  border-bottom-color: var(--technical);
 }
 
 .credit {
