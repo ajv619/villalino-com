@@ -13,7 +13,12 @@
     }
     (children || []).forEach(function (c) {
       if (c == null) return;
-      node.appendChild(typeof c === 'string' ? document.createTextNode(c) : c);
+      if (typeof c !== 'string') return node.appendChild(c);
+      // Merge adjacent strings into one text node, exactly as static markup
+      // would parse (separate nodes can shift glyph positioning by a hair).
+      var last = node.lastChild;
+      if (last && last.nodeType === 3) last.appendData(c);
+      else node.appendChild(document.createTextNode(c));
     });
     return node;
   }
